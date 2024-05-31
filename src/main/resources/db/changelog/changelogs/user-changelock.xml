@@ -1,0 +1,83 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="MedvedevDmitry">
+        <comment>create table users with ENUM type for department</comment>
+        <createTable tableName="users">
+            <column name="id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="user_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="position" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="department" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="MedvedevDmitry">
+        <comment>add test data to users</comment>
+        <insert tableName="users">
+            <column name="name" value="John"/>
+            <column name="surname" value="Dou"/>
+            <column name="position" value="Manager"/>
+            <column name="department" value="HR_DEP"/>
+            <!--            2345-->
+            <column name="password" value="$2a$10$Z.IGSrxjpcn6E7lF9A3xAuOzm43kgRsvQ3co8ZwlJufm30dU7ymVi"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="name" value="Jane"/>
+            <column name="surname" value="Brown"/>
+            <column name="position" value="Economist"/>
+            <column name="department" value="ECONOMIST_DEP"/>
+            <!--            2345-->
+            <column name="password" value="$2a$10$Z.IGSrxjpcn6E7lF9A3xAuOzm43kgRsvQ3co8ZwlJufm30dU7ymVi"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="name" value="Derek"/>
+            <column name="surname" value="White"/>
+            <column name="position" value="Developer"/>
+            <column name="department" value="DEVELOPMENT_DEP"/>
+            <!--            2345-->
+            <column name="password" value="$2a$10$Z.IGSrxjpcn6E7lF9A3xAuOzm43kgRsvQ3co8ZwlJufm30dU7ymVi"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="name" value="Sarah"/>
+            <column name="surname" value="Conmor"/>
+            <column name="position" value="CEO"/>
+            <column name="department" value="MANAGEMENT"/>
+            <!--            2345-->
+            <column name="password" value="$2a$10$Z.IGSrxjpcn6E7lF9A3xAuOzm43kgRsvQ3co8ZwlJufm30dU7ymVi"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="name" value="Sam"/>
+            <column name="surname" value="Malek"/>
+            <column name="position" value="Admin"/>
+            <column name="department" value="MANAGEMENT"/>
+            <!--            1234-->
+            <column name="password" value="$2a$10$45shY7PU4Z4e5efPwElkG.1Suv8HrT03wEBvsAkSH6U6ltwKJnuCi"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

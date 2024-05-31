@@ -2,13 +2,11 @@ package org.doc.com.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.doc.com.api_errors.ApiError;
 import org.doc.com.dto.DocumentCreateDto;
-import org.doc.com.dto.DocumentCreateDtoWithToken;
 import org.doc.com.dto.DocumentDto;
 import org.doc.com.entity.Document;
+import org.doc.com.enums.Department;
 import org.doc.com.enums.Status;
-import org.doc.com.enums.Type;
 import org.doc.com.mapper.DocumentMapper;
 import org.doc.com.service.DocumentService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 //http://localhost:8080/v1/documents (for postman)
 @RestController
 @RequestMapping("/v1/documents")
@@ -29,20 +26,10 @@ public class DocumentController {
     private final DocumentService service;
     private final DocumentMapper mapper;
 
-//    @PostMapping
-//    public ResponseEntity<DocumentDto> create(@Valid @RequestBody DocumentCreateDto documentCreateDto) {
-//        Document document = mapper.documentCreateDtoToEntity(documentCreateDto);
-//        Document createdDocument = service.create(document);
-//        return ResponseEntity.ok(mapper.toDto(createdDocument));
-//    }
-
-    @PostMapping
-    public ResponseEntity<DocumentDto> create(@Valid @RequestBody DocumentCreateDtoWithToken documentCreateDtoWithToken) {
-        if (documentCreateDtoWithToken.getTransactionToken() == null || documentCreateDtoWithToken.getTransactionToken().isEmpty()) {
-            throw new IllegalArgumentException("Transaction token is required");
-        }
-        Document document = mapper.documentCreateWithToken(documentCreateDtoWithToken);
-        Document createdDocument = service.create(document, documentCreateDtoWithToken.getTransactionToken());
+    @PostMapping("/create")
+    public ResponseEntity<DocumentDto> create(@Valid @RequestBody DocumentCreateDto documentCreateDto) {
+        Document document = mapper.documentCreateDtoToEntity(documentCreateDto);
+        Document createdDocument = service.create(document);
         return ResponseEntity.ok(mapper.toDto(createdDocument));
     }
 
@@ -54,17 +41,24 @@ public class DocumentController {
         return ResponseEntity.ok(mapper.toDto(updatedDocument));
     }
 
+    @PatchMapping("/{id}/status/{newStatus}")
+    public ResponseEntity<DocumentDto> changeDocStatus(@PathVariable Long id,
+                                                       @PathVariable Status newStatus) {
+        Document updatedStatusInDoc = service.changeStatus(id, newStatus);
+        return ResponseEntity.ok(mapper.toDto(updatedStatusInDoc));
+    }
+
     @GetMapping("/search")
     public ResponseEntity<List<DocumentDto>> search(
             @RequestParam(required = false) String serialNumber,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Status status,
-            @RequestParam(required = false) Type type,
+            @RequestParam(required = false) Department department,
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime createdAt,
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime updatedAt) {
-        List<Document> documents = service.search(serialNumber, title, status, type,
+        List<Document> documents = service.search(serialNumber, title, status, department,
                 createdAt, updatedAt);
         List<DocumentDto> documentDtos = documents.stream()
                 .map(mapper :: toDto).collect(Collectors.toList());

@@ -1,0 +1,89 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="MedvedevDmitry">
+        <comment>create table documents with ENUM types</comment>
+        <createTable tableName="documents">
+            <column name="id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="document_pkey"/>
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" referencedTableName="users" referencedColumnNames="id" foreignKeyName="fk_documents_users"/>
+            </column>
+            <column name="serial_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="department" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="VARCHAR(2000)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="MedvedevDmitry">
+        <comment>add data to table documents</comment>
+        <insert tableName="documents">
+            <column name="user_id" value="1"/>
+            <column name="serial_number" value="AB10001-HR"/>
+            <column name="title" value="First new document"/>
+            <column name="status" value="DRAFT"/>
+            <column name="department" value="HR_DEP"/>
+            <column name="created_at" value="2024-05-30 14:34:02.942000"/>
+            <column name="updated_at" value="2024-05-30 14:34:02.942000"/>
+            <column name="text" value="Some text that can be near 2000 char"/>
+        </insert>
+
+        <insert tableName="documents">
+            <column name="user_id" value="2"/>
+            <column name="serial_number" value="CD20002-EC"/>
+            <column name="title" value="Second new document"/>
+            <column name="status" value="REJECTED"/>
+            <column name="department" value="ECONOMIST_DEP"/>
+            <column name="created_at" value="2024-05-30 14:34:02.942000"/>
+            <column name="updated_at" value="2024-05-30 14:34:02.942000"/>
+            <column name="text" value="Some text that can be near 2000 char"/>
+        </insert>
+
+        <insert tableName="documents">
+            <column name="user_id" value="3"/>
+            <column name="serial_number" value="EF30003-DE"/>
+            <column name="title" value="Third new document"/>
+            <column name="status" value="DRAFT"/>
+            <column name="department" value="DEVELOPMENT_DEP"/>
+            <column name="created_at" value="2024-05-30 14:34:02.942000"/>
+            <column name="updated_at" value="2024-05-30 14:34:02.942000"/>
+            <column name="text" value="Some text that can be near 2000 char"/>
+        </insert>
+
+        <insert tableName="documents">
+            <column name="user_id" value="4"/>
+            <column name="serial_number" value="GH40004-MA"/>
+            <column name="title" value="Four new document"/>
+            <column name="status" value="APPROVED"/>
+            <column name="department" value="MANAGEMENT"/>
+            <column name="created_at" value="2024-05-30 14:34:02.942000"/>
+            <column name="updated_at" value="2024-05-30 14:34:02.942000"/>
+            <column name="text" value="Some text that can be near 2000 char"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

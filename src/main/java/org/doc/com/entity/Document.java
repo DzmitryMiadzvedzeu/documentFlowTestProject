@@ -6,14 +6,14 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.doc.com.enums.Status;
-import org.doc.com.enums.Type;
+import org.doc.com.enums.Department;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Documents")
+@Table(name = "documents")
 @Data
 @NoArgsConstructor
 public class Document {
@@ -32,10 +32,10 @@ public class Document {
     private String title;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.CREATED;
+    private Status status = Status.DRAFT;
 
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private Department department;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -44,11 +44,22 @@ public class Document {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public Document(String serialNumber, String title, Type type) {
+    @NotBlank(message = "Document text is required")
+    @Length(max = 2000, message = "Document text mustn't be longer than 2000 characters")
+    private String text;
+
+    // TODO: Attachment implementation
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    public Document(String serialNumber, String title, Department department, String text) {
         this.serialNumber = serialNumber;
         this.title = title;
-        this.status = Status.CREATED;
-        this.type = type;
+        this.status = Status.DRAFT;
+        this.department = department;
+        this.text = text;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

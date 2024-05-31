@@ -1,6 +1,6 @@
 package org.doc.com.enums;
 
-public enum Type {
+public enum Department {
 
     ECONOMIST_DEP,
     HR_DEP,

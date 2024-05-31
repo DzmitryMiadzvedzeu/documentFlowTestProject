@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ApiError {
+public class ApiError extends RuntimeException{
 
     private String message;
 }

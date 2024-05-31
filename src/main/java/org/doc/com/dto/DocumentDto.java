@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.doc.com.enums.Department;
 import org.doc.com.enums.Status;
-import org.doc.com.enums.Type;
 
 import java.time.LocalDateTime;
 
@@ -23,9 +23,13 @@ public class DocumentDto {
 
     private Status status;
 
-    private Type type;
+    private Department department;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private String text;
+
+    private Long userId;
 }
